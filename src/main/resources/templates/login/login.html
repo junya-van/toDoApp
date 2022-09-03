@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ToDoアプリ|ログイン画面</title>
+</head>
+<body>
+	<h2>ようこそToDoアプリへ</h2>
+	<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"  class="text-danger">ユーザーIDまたはパスワードに誤りがあります</p>
+	<form method="post"  th:action="@{/login}">
+		<p>ユーザーID</p>
+		<input type="text" name="user_id">
+		<p>パスワード</p>
+		<input type="password" name="password">
+		<input type="submit" value="ログイン">
+	</form>
+	<a th:href="@{/signup/form}">新規登録はこちら</a>
+</body>
+</html>

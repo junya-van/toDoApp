@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>タスク一覧|ToDoアプリ</title>
+</head>
+<body>
+	<header>
+		<ul>
+			<li th:text="${userId}"></li>
+			<li><form method="post" th:action="@{/logout}"><button type="submit">ログアウト</button></form></li>
+		</ul>
+	</header>
+	<p th:if="${complete}" th:text="${complete}"></p>
+	<div class="task-form">
+		<form method="post" th:action="${taskForm.newTask}? @{/task/insert} : @{/task/update}" th:object="${taskForm}">
+			<!-- タスクタイプ選択 -->
+			<label>タスクタイプ(選択してください) :</label>
+			<select name="typeId">
+				<option value="1" th:selected="*{typeId == 1}">緊急</option>
+				<option value="2" th:selected="*{typeId == 2}">重要</option>
+				<option value="3" th:selected="*{typeId == 3}">できれば</option>
+			</select><br>
+			<div th:if="${#fields.hasErrors('typeId')}" th:errors="*{typeId}"></div>
+			<!-- やる事入力欄 -->
+			<label>やること:</label>
+			<input type="text" th:field="*{title}"/><br>
+			<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+			<!-- 詳細入力欄 -->
+			<label>詳細:</label>
+			<textarea cols="20" rows="4" th:field="*{detail}"></textarea><br>
+			<div th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"></div>
+			<!-- 期限 -->
+			<label>期限:</label>
+			<input type="datetime-local" th:field="*{deadline}"/><br>
+			<div th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"></div>
+			<input th:if="${taskId}" type="hidden" name="taskId" th:value="${taskId}">
+			<input type="submit" value="送信">
+		</form>
+	</div>
+	
+	<div th:if="${taskForm.newTask}" style="margin:10px">
+		<h3>タスク一覧　編集と削除</h3>
+		<table>
+			<tr th:each="obj : ${taskList}">
+				<td th:text=${obj.title}></td>
+				<td th:text=${obj.deadline}></td>
+				<td th:text=${obj.type}></td>
+				<td><a type="button" th:href="@{/task/{id}(id=${obj.task_id})}">編集</a></td>
+				<td>
+					<form method="post" th:action="@{/task/delete}">
+						<input type="hidden" name="taskId" th:value="${obj.task_id}">
+						<input type="submit" value="削除">
+					</form>
+				</td>
+				<td>
+					<form method="get" th:action="@{/task/duplicate}">
+						<input type="hidden" name="taskId" th:value="${obj.task_id}">
+						<input type="submit" value="複製"> 
+					</form>
+				</td>
+			</tr>
+		</table><br>
+		
+		<!--  絞り込みボタン -->
+		<form method="get" th:action="@{/task/selectType}" th:object="${taskForm}">
+			<label>タスクの絞り込み(選択してください) :</label>
+			<select name="typeId">
+				<option value="1" th:selected="*{typeId == 1}">緊急</option>
+				<option value="2" th:selected="*{typeId == 2}">重要</option>
+				<option value="3" th:selected="*{typeId == 3}">できれば</option>
+			</select><br>
+			<input type="submit" value="絞り込む">
+		</form>
+		<br>
+		<!--  絞り込み解除ボタン -->
+		<form method="get" th:action="@{/task/list}">
+			<input type="submit" value="絞り込み解除">
+		</form>
+	</div>
+	
+	<p th:unless="${taskForm.newTask}"><a href="#" th:href="@{/task/list}">戻る</a></p>
+	
+</body>
+</html>

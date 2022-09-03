@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ToDoアプリ|ユーザー登録確認画面</title>
+</head>
+<body>
+	<p>以下のユーザー名で登録しますか</p>
+	<div th:object="${signupForm}">
+	<p th:text="*{user_id}"></p>
+	<p th:text="*{user_name}"></p>
+	<!-- 戻るボタン -->
+	<form method="post" th:action="@{/signup/form}">
+		<input type="hidden" name="user_id" th:value="*{user_id}">
+		<input type="hidden" name="user_name" th:value="*{user_name}">
+		<input type="hidden" name="password" th:value="*{password}">
+		<input type="submit" value="戻る">
+	</form>
+	<!-- 登録ボタン -->
+	<form method="post" th:action="@{/signup/complete}">
+		<input type="hidden" name="user_id" th:value="*{user_id}">
+		<input type="hidden" name="user_name" th:value="*{user_name}">
+		<input type="hidden" name="password" th:value="*{password}">
+		<input type="submit" value="登録">
+	</form>
+	</div>
+</body>
+</html>

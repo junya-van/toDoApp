@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS user (
+	user_id VARCHAR(20) NOT NULL PRIMARY KEY,
+	user_name VARCHAR(50) NOT NULL,
+	password VARCHAR(100) NOT NULL,
+	role VARCHAR(50) NOT NULL,
+	created_at DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS task_type (
+	type_id INT(2) NOT NULL PRIMARY KEY,
+	type VARCHAR(20) NOT NULL,
+	comment VARCHAR(50) DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS task (
+	task_id INT(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	user_id VARCHAR(50) NOT NULL REFERENCES user(user_id),
+	type_id INT NOT NULL REFERENCES task_type(type_id),
+	title VARCHAR(50) NOT NULL,
+	detail text,
+	deadline DATETIME NOT NULL
+);
+

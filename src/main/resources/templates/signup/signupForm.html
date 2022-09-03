@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ToDoアプリ|ユーザー登録画面</title>
+</head>
+<body>
+	<form method="post" th:action="@{/signup/confirm}" th:object="${signupForm}">
+		<h1>ユーザー登録フォーム</h1>
+		<p th:text="${message}"></p>
+		<!-- ユーザーID -->
+		<div class="form-group">
+			<label for="user_id">ユーザーID</label>
+			<input type="text" th:field="*{user_id}">
+			<div class="error-message" th:errors="*{user_id}"></div>
+		</div>
+		<!-- ユーザー名 -->
+		<div class="form-group">
+			<label for="user_name">ユーザー名</label>
+			<input type="text" th:field="*{user_name}">
+			<div class="error-message" th:errors="*{user_name}"></div>
+		</div>
+		<!-- パスワード -->
+		<div class="form-group">
+			<label for="password">パスワード</label>
+			<input type="password" th:field="*{password}">
+			<div class="error-message" th:errors="*{password}"></div>
+		</div>
+		<!-- 登録ボタン -->
+		<input type="submit" value="登録">
+	</form>
+	<!-- 戻るボタン -->
+	<a th:href="@{/login}">戻る</a>
+</body>
+</html>
